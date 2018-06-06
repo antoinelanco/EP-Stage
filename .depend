@@ -8,7 +8,7 @@ Main.cmo : Lam.cmo Exemple.cmo
 Main.cmx : Lam.cmx Exemple.cmx
 Printer.cmo : Types.cmo
 Printer.cmx : Types.cmx
+Test.cmo :
+Test.cmx :
 Types.cmo :
 Types.cmx :
-tree.cmo :
-tree.cmx :

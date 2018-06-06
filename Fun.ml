@@ -186,29 +186,18 @@ let main origobj allmrules =
 
 let main12 origobj allmrules =
 
-  let rec fail origobj = function
-    | [] -> None
-    | (pat1,rhs1) :: rulerest -> matt (pat1,origobj,[],rhs1,rulerest)
-
-  and succeed = function
-    | ([],rhs, rules) -> Some rhs
-
-    | (work1 :: workr, rhs, rules) ->
-      begin
-        match work1 with
-        | ([],[]) -> succeed(workr, rhs, rules)
-        | (pat1::patr, obj1::objr) -> matt (pat1, obj1, (patr,objr)::workr, rhs, rules)
-        | _ -> failwith "length pat != length obj (imposible)"
-      end
-
+  let rec succeed = function
+    | [] -> true
+    | ([],[]) :: workr -> succeed workr
+    | (pat1::patr, obj1::objr) :: workr -> matt (pat1, obj1, (patr,objr)::workr)
+    | _ -> failwith "length pat != length obj (imposible)"
 
   and matt = function
-    | (PVar _, _, work, rhs, rules) -> succeed(work, rhs, rules)
-    | (PCon(pcon,pargs),PCon(ocon,oargs),work,rhs,rules) ->
+    | (PVar _, _, work) -> succeed work
+    | (PCon(pcon,pargs),PCon(ocon,oargs),work) when pcon = ocon ->
+       succeed((pargs, oargs) :: work)
+    | _ -> false
 
-      if pcon = ocon
-      then succeed((pargs, oargs) :: work, rhs, rules)
-      else fail origobj rules
-
-    | (_, _, _, _, rules) -> fail origobj rules (*PK*)
-  in fail origobj allmrules
+  in
+  List.find_opt
+    (fun (pat,_) -> matt(pat,origobj,[])) allmrules

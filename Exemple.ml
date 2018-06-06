@@ -25,7 +25,7 @@ let a = PCon(nodec,
 
 let test = [(a,"a");(a,"b")]
 
-let r = main2 (PVar "10") [(PVar "11","A")] (*??*)
+let r = main12 (PVar "10") [(PVar "11","A")] (*??*)
 
 
 let rul =
@@ -48,7 +48,7 @@ let exemple =
   let () = printf "--------------EXEMPLE--------------\n" in
   let () = printf "%s\n\n" (stringDes "" id r3) in
   let () =
-    let res = match r with | Some a -> a | _ -> "none" in
+    let res = match r with | Some a -> snd a | _ -> "none" in
     printf "%s\n" res in
 
 
