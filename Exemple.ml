@@ -41,12 +41,23 @@ let rull =
     (cons (PCon( {name="x"; arity=0; span=2}, [])) nil,"222")
   ]
 
+let green = PCon({ name = "G"; arity = 0; span = 3 }, [])
+let rulrgb =
+  [
+    (cons green tt,"111");
+    (cons All ff,"222")
+  ]
+
+let resrgb = compile rulrgb
+
 let r3 = compile rull
 
 
 let exemple =
   let () = printf "--------------EXEMPLE--------------\n" in
   let () = printf "%s\n\n" (stringDes "" id r3) in
+  let () = printf "%s\n\n" (stringDes "" id resrgb) in
+
   let () =
     let res = match r with | Some a -> snd a | _ -> "none" in
     printf "%s\n" res in

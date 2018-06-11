@@ -13,22 +13,17 @@ let staticmatch : con * termd -> matchresult = function
   | (pcon, Neg nonset) ->
     if List.exists ((=) pcon) nonset
     then No
-    else if pcon.span = 1 + (List.length nonset)
+    else if pcon.span = (List.length nonset) + 1
     then Yes
     else Maybe
-
-
 
 let augment = function
   | ([],_) -> []
   | ((con, args)::rest, dsc) -> (con, dsc :: args) :: rest
 
-
-
 let norm = function
   | ((con, args) :: rest) -> augment (rest, Pos(con, List.rev args))
   | [] -> []
-
 
 let rec builddsc = function
   | ([],dsc,[]) -> dsc
@@ -36,9 +31,7 @@ let rec builddsc = function
     builddsc(rest, Pos(con, (List.rev args) @ (dsc :: dargs)), work)
   | _ -> failwith "r & l diff arity"
 
-
 (*-----------------V3--------------------*)
-
 
 let compile allmrules =
 
@@ -62,6 +55,8 @@ let compile allmrules =
 
   and matt = function
     | (PVar _, obj, dsc, ctx, work, rhs, rules) ->
+      succeed(augment (ctx, dsc), work, rhs, rules)
+    | (All, obj, dsc, ctx, work, rhs, rules) ->
       succeed(augment (ctx, dsc), work, rhs, rules)
     | (PCon(pcon,pargs),obj, dsc, ctx, work,rhs,rules) ->
 
@@ -166,7 +161,8 @@ let main origobj allmrules =
       begin
         match work1 with
         | ([],[]) -> succeed(workr, rhs, rules)
-        | (pat1::patr, obj1::objr) -> matt (pat1, obj1, (patr,objr)::workr, rhs, rules)
+        | (pat1::patr, obj1::objr) ->
+              matt (pat1, obj1, (patr,objr)::workr, rhs, rules)
         | _ -> failwith "length pat != length obj (imposible)"
       end
 
