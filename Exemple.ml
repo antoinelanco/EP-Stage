@@ -23,9 +23,9 @@ let a = PCon(nodec,
                    [PVar "9"]); PVar "12"; PCon(nodec,
                                                 [PCon(leafc, [PVar "4"]); PVar "7";PCon(nullc,[])])])
 
-let test = [(a,"a");(a,"b")]
+let test = [(a,"a");(PVar "10","b")]
 
-let r = main12 (PVar "10") [(PVar "11","A")] (*??*)
+let r = main2 (PVar "10") test (*??*)
 
 
 let rul =
@@ -45,7 +45,7 @@ let green = PCon({ name = "G"; arity = 0; span = 3 }, [])
 let rulrgb =
   [
     (cons green tt,"111");
-    (cons All ff,"222")
+    (cons green ff,"222")
   ]
 
 let resrgb = compile rulrgb
@@ -55,12 +55,12 @@ let r3 = compile rull
 
 let exemple =
   let () = printf "--------------EXEMPLE--------------\n" in
+  let () =
+    let res = match r with | Some a -> a | _ -> "none" in
+    printf "%s\n\n\n" res in
+
   let () = printf "%s\n\n" (stringDes "" id r3) in
   let () = printf "%s\n\n" (stringDes "" id resrgb) in
-
-  let () =
-    let res = match r with | Some a -> snd a | _ -> "none" in
-    printf "%s\n" res in
 
 
   let () = printf "%s\n" (stringPat a) in

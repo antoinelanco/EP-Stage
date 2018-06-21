@@ -6,6 +6,10 @@ Lam.cmo : Types.cmo Printer.cmo Fun.cmo
 Lam.cmx : Types.cmx Printer.cmx Fun.cmx
 Main.cmo : Lam.cmo Exemple.cmo
 Main.cmx : Lam.cmx Exemple.cmx
+PN.cmo :
+PN.cmx :
+PNML.cmo :
+PNML.cmx :
 Printer.cmo : Types.cmo
 Printer.cmx : Types.cmx
 Test.cmo :

@@ -15,7 +15,6 @@ let stringCon a : string = a.name
 let rec stringPat : pat -> string = function
   | PVar a -> a
   | PCon (a,b) -> sprintf "%s(%s)" (stringCon a) (stringlist stringPat b)
-  | All -> "All"
 
 
 let stringMat a trans : string =

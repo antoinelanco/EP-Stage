@@ -21,7 +21,7 @@ let rule =
     (PCon(lamc,[PVar "x"; PCon(letc,[PVar "y";PVar "z";PVar "v"])]),"888");
     (PCon(letc,[PVar "x"; PVar "y"; PCon(appc,[PVar "z"; PVar "v"])]),"999");
     (PCon(appc,[PCon(appc,[PCon(lamc,[PVar "x";
-              PCon(lamc,[PVar "y"; PVar "z"])]); PVar "v"]); PVar "w"]),"1010")
+                                      PCon(lamc,[PVar "y"; PVar "z"])]); PVar "v"]); PVar "w"]),"1010")
   ]
 
 let r = compile rule

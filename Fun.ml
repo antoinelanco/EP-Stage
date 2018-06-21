@@ -56,8 +56,6 @@ let compile allmrules =
   and matt = function
     | (PVar _, obj, dsc, ctx, work, rhs, rules) ->
       succeed(augment (ctx, dsc), work, rhs, rules)
-    | (All, obj, dsc, ctx, work, rhs, rules) ->
-      succeed(augment (ctx, dsc), work, rhs, rules)
     | (PCon(pcon,pargs),obj, dsc, ctx, work,rhs,rules) ->
 
       let args num f = List.init num f in
@@ -93,8 +91,8 @@ let compile allmrules =
 
 let main2 origobj allmrules =
 
-  let rec fail = function
-    | (dsc,[]) -> None
+  let rec fail = function (*quand ca fail on passe a la branche d'apre*)
+    | (_,[]) -> None
     | (dsc,(pat1,rhs1) :: rulerest) -> matt (pat1,origobj,dsc, [], [],rhs1,rulerest)
 
   and succeed = function
@@ -162,7 +160,7 @@ let main origobj allmrules =
         match work1 with
         | ([],[]) -> succeed(workr, rhs, rules)
         | (pat1::patr, obj1::objr) ->
-              matt (pat1, obj1, (patr,objr)::workr, rhs, rules)
+          matt (pat1, obj1, (patr,objr)::workr, rhs, rules)
         | _ -> failwith "length pat != length obj (imposible)"
       end
 
@@ -191,7 +189,7 @@ let main12 origobj allmrules =
   and matt = function
     | (PVar _, _, work) -> succeed work
     | (PCon(pcon,pargs),PCon(ocon,oargs),work) when pcon = ocon ->
-       succeed((pargs, oargs) :: work)
+      succeed((pargs, oargs) :: work)
     | _ -> false
 
   in

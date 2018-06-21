@@ -2,7 +2,6 @@ type con = { name : string; arity : int; span : int }
 type pat =
   | PVar of string
   | PCon of con * pat list
-  | All
 
 type 'rhs mat = (pat * 'rhs) list
 
